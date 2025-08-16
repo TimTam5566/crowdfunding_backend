@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'fundraisers.apps.FundraisersConfig',
+    'users.apps.UserConfig',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
