@@ -53,15 +53,15 @@ It might look messy here in the PDF, but once it's rendered it looks very neat!
 
 It can be helpful to keep the markdown preview open in VS Code so that you can see what you're typing more easily. }}
 
-| URL         | HTTP Method | Purpose                          | Request Body | Success Response Code | Authentication/Authorisation |
-| ----------- | ----------- | -------------------------------- | ------------ | --------------------- | ---------------------------- |
-| fundraiser/ | GET         | Fetch all fundraisers            | N/A          | 200                   | None                         |
-| fundraiser/ | POST        | Create a new fundraiser          | JSON Payload | 201                   | Any logged user              |
-| user/       | GET         | Fetch all users - a single user? | N/A?         | 200                   | None                         |
-| user/       | POST        | Create new user                  | JSON Payload | 201                   | Any logged user              |
-| pledge/     | GET         | Fetch all pledges                | N/A          | 200                   | none                         |
-| pledge/     | POST        | Create/add pledge                | JSON Payload | 201                   | Any 
-logged user              |
+| URL          | HTTP Method | Purpose                          | Request Body | Success Response Code | Authentication/Authorisation |
+| ------------ | ----------- | -------------------------------- | ------------ | --------------------- | ---------------------------- |
+| /fundraiser/ | GET         | Fetch all fundraisers            | N/A          | 200                   | None                         |
+| /fundraiser/ | POST        | Create a new fundraiser          | JSON Payload | 201                   | Any logged user              |
+| /user/       | GET         | Fetch all users - a single user? | N/A?         | 200                   | None                         |
+| /user/       | POST        | Create new user                  | JSON Payload | 201                   | Any logged user              |
+| /pledge/     | GET         | Fetch all pledges                | N/A          | 200                   | none                         |
+| /pledge/     | POST        | Create/add pledge                | JSON Payload | 201                   | Any logged user              |         |
+| /pledge/1/   | GET         |
 
 
 - Handle failed requests gracefully (e.g. you should have a custom 404 page rather than the default error page).

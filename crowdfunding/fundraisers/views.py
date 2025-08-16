@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
-from .models import Fundraiser # Import our Fundraiser model
-from .serializers import FundraiserSerializer # Import our FundraiserSerializer
+from .models import Fundraiser, Pledge # Import our Fundraiser model
+from .serializers import FundraiserSerializer, PledgeSerializer, FundraiserDetailSerializer# Import our FundraiserSerializer
 
 # Create your views here.
 
@@ -47,7 +47,30 @@ class FundraiserDetail(APIView):
       
        fundraiser = self.get_object(pk)
        
-       serializer = FundraiserSerializer(fundraiser)
+       serializer = FundraiserDetailSerializer(fundraiser)
        
        return Response(serializer.data)
+
+
+class PledgeList(APIView):
+    def get(self, request):
+        pledges = Pledge.objects.all()  # Fetch all Pledge objects from the database
+        serializer = PledgeSerializer(pledges, many=True)  # Convert database list to JSON format
+        return Response(serializer.data)  # Return the serialized data as a response
+
+    def post(self, request):
+        serializer = PledgeSerializer(data=request.data)  # Convert request data to a Pledge model instance
+        if serializer.is_valid():  # If the data is valid
+            serializer.save()  # Save the model instance to the database
+            return Response(
+                serializer.data, 
+                status=status.HTTP_201_CREATED
+                )  # Return 201 CREATED if successful
+        else:
+            return Response(
+                serializer.errors, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )  # Return 400 BAD REQUEST if invalid data
+
     
+
