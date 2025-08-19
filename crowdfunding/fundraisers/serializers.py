@@ -15,3 +15,4 @@ class PledgeSerializer(serializers.ModelSerializer):
 
 class FundraiserDetailSerializer(FundraiserSerializer): # adding unctionality to the FundraiserDetail view
     pledges = PledgeSerializer(many=True, read_only=True)  # This will include the related pledges in the serialized data
+

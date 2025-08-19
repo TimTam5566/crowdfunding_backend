@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model # Import the custom user model doing this wires up some django magic
 
 # Create your models here.
 
@@ -9,6 +10,11 @@ class Fundraiser(models.Model):
    image = models.URLField()
    is_open = models.BooleanField()
    date_created = models.DateTimeField(auto_now_add=True)
+   owner = models.ForeignKey(
+      get_user_model(),
+      related_name='owned_fundraisers',
+      on_delete=models.CASCADE # if user gets deleted, fundraisers get deleted
+   )
 
 class Pledge(models.Model):
    amount = models.IntegerField()
@@ -20,4 +26,8 @@ class Pledge(models.Model):
       on_delete=models.CASCADE
    )
 
-
+   supporter = models.ForeignKey(
+      get_user_model(),
+      related_name='pledges',
+      on_delete=models.CASCADE # if user gets deleted pledges get deleted
+   )
