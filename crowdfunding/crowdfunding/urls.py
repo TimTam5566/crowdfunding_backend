@@ -21,4 +21,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('fundraisers.urls')),
+    path('', include('users.urls')),  # Include the URLs from the users app
+    path('api-auth/', include('rest_framework.urls')),  # This will enable the browsable API for authentication
 ]
