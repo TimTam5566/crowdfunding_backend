@@ -27,7 +27,7 @@ class FundraiserList(APIView): # inheriting from APIView to create a view for li
         return Response(
             serializer.errors, 
             status=status.HTTP_400_BAD_REQUEST
-             ) # If the data was invalid, we return a 400 BAD REQUEST with the errors.
+                ) # If the data was invalid, we return a 400 BAD REQUEST with the errors.
     
 class FundraiserDetail(APIView):
    
@@ -43,12 +43,9 @@ class FundraiserDetail(APIView):
             raise Http404 #  if no fundraiser exists in the database that has the supplied primary key value, we raise an "exception" that results in a 404 NOT FOUND result being returned to the user.
 
     def get(self, request, pk):
-      
-       fundraiser = self.get_object(pk)
-       
-       serializer = FundraiserDetailSerializer(fundraiser)
-       
-       return Response(serializer.data)
+        fundraiser = self.get_object(pk)
+        serializer = FundraiserDetailSerializer(fundraiser)
+        return Response(serializer.data)
 
 
 class PledgeList(APIView):

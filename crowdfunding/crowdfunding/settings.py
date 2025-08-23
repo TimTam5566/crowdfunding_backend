@@ -29,11 +29,12 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# INSTALLED_APPS is a list of all the applications that are installed in our Django project. it installs in order to use them.
 INSTALLED_APPS = [
     'fundraisers.apps.FundraisersConfig',
     'users.apps.UsersConfig',
     'rest_framework',
+    'rest_framework.authtoken',  # This is needed for token authentication
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    
+}
 AUTH_USER_MODEL = 'users.CustomUser'  # This tells Django to use our CustomUser model as the user model'
 
 MIDDLEWARE = [
