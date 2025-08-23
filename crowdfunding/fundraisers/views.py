@@ -19,7 +19,7 @@ class FundraiserList(APIView): # inheriting from APIView to create a view for li
     def post(self, request): # Method to handle POST requests for creating new fundraisers
         serializer = FundraiserSerializer(data=request.data) # we use the serializer to convert it to a Fundraiser model instance.
         if serializer.is_valid(): # If the data was valid, 
-            serializer.save() # the serializer then saves the model instance to the database.
+            serializer.save(owner=request.user) # the serializer then saves the model instance to the database.
             return Response(
                 serializer.data, 
                 status=status.HTTP_201_CREATED
