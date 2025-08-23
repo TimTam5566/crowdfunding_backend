@@ -19,7 +19,7 @@ class Fundraiser(models.Model):
 class Pledge(models.Model):
    amount = models.IntegerField()
    comment = models.CharField(max_length=200)
-   anonymous = models.BooleanField
+   anonymous = models.BooleanField()
    fundraiser = models.ForeignKey(
       'Fundraiser',
       related_name='pledges',

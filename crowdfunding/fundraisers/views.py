@@ -60,7 +60,7 @@ class PledgeList(APIView):
     def post(self, request):
         serializer = PledgeSerializer(data=request.data)  # Convert request data to a Pledge model instance
         if serializer.is_valid():  # If the data is valid
-            serializer.save()  # Save the model instance to the database
+            serializer.save(supporter=request.user)  # Save the model instance to the database
             return Response(
                 serializer.data, 
                 status=status.HTTP_201_CREATED
