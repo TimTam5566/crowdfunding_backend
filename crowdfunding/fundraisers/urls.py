@@ -3,5 +3,6 @@ from . import views
 urlpatterns = [
     path('fundraisers/', views.FundraiserList.as_view()),
     path('fundraisers/<int:pk>/', views.FundraiserDetail.as_view()),  # This allows us to access a specific fundraiser by its primary key (pk)
-    path('pledges/', views.PledgeList.as_view()),  # This will handle requests to the /pledges/ endpoint
-    ] # new view can be accessed by adding fundraisers/ to the end of our back-end's address
+    path('pledges/', views.PledgeList.as_view()),  # This will handle requests to the /pledges/ endpoint new view can be accessed by adding fundraisers/ to the end of our back-end's address
+    path('pledges/<int:pk>/', views.PledgeDetail.as_view())
+    ] 

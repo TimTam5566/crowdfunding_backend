@@ -7,3 +7,10 @@ class IsOwnerOrReadOnly(permissions.BasePermission): # Custom permission class t
         else: 
             return obj.owner == request.user # For other request methods (like POST, PUT, DELETE), only the owner of the object has permission to perform actions.
         # This line checks if the owner of the object (obj.owner) is the same as the user making the request (request.user).
+class IsSupporterOrReadOnly(permissions.BasePermission): # Custom permission class to allow only supporters of a pledge to edit it.
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            return obj.supporter == request.user
+        

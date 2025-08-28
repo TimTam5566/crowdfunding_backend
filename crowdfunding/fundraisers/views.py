@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from django.http import Http404
 from .models import Fundraiser, Pledge # Import our Fundraiser model
 from .serializers import FundraiserSerializer, PledgeSerializer, FundraiserDetailSerializer, PledgeDetailSerializer# Import our FundraiserSerializer
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 # Create your views here.
 
 class FundraiserList(APIView): # inheriting from APIView to create a view for listing fundraisers
@@ -84,9 +84,27 @@ class PledgeList(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )  # Return 400 BAD REQUEST if invalid data
         
+    
+class PledgeDetail(APIView):
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsSupporterOrReadOnly] 
+    def get_object(self, pk):
+        try:
+            pledges = Pledge.objects.get(pk=pk)
+            self.check_object_permissions(self.request, pledges)
+            return pledges
+        except Pledge.DoesNotExist:
+            raise Http404
+        
+    def get (self, request, pk):
+        pledges = self.get_object
+        serializer = PledgeDetailSerializer(pledges)
+        return Response(serializer.data)
+    
     def put(self, request, pk):
         pledges = self.get_object(pk)
-        serializer = PledgesDetailSerializer(
+        serializer = PledgeDetailSerializer(
             instance=pledges,
             data=request.data,
             partial=True
@@ -99,7 +117,4 @@ class PledgeList(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
-
-class PledgeDetail(APIView):
-      permission_classes = [permissions.IsAuthenticatedOrReadOnly] 
 
