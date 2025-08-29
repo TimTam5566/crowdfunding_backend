@@ -12,8 +12,8 @@ class Fundraiser(models.Model):
    date_created = models.DateTimeField(auto_now_add=True)
    owner = models.ForeignKey(
       get_user_model(),
-      related_name='owned_fundraisers',
-      on_delete=models.CASCADE # if user gets deleted, fundraisers get deleted
+      on_delete=models.CASCADE, # if user gets deleted, fundraisers get deleted
+      related_name='owned_fundraisers'   
    )
 
 class Pledge(models.Model):
@@ -22,12 +22,11 @@ class Pledge(models.Model):
    anonymous = models.BooleanField()
    fundraiser = models.ForeignKey(
       'Fundraiser',
-      related_name='pledges',
-      on_delete=models.CASCADE
+      on_delete=models.CASCADE,
+      related_name='pledges'   
    )
-
    supporter = models.ForeignKey(
       get_user_model(),
-      related_name='pledges',
-      on_delete=models.CASCADE # if user gets deleted pledges get deleted
+      on_delete=models.CASCADE, # if user gets deleted pledges get deleted
+      related_name='pledges'  
    )

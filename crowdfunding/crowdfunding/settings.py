@@ -42,14 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+AUTH_USER_MODEL = 'users.CustomUser'  # This tells Django to use our CustomUser model as the user model'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ],
-    
+    ],    
 }
-AUTH_USER_MODEL = 'users.CustomUser'  # This tells Django to use our CustomUser model as the user model'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

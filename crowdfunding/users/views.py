@@ -15,7 +15,6 @@ class CustomUserList(APIView): # inheriting from APIView to create a view for li
     
     def post(self, request):
         serializer = CustomUserSerializer(data=request.data)
-
         if serializer.is_valid():
             serializer.save()
             return Response(

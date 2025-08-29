@@ -33,13 +33,13 @@ class FundraiserDetailSerializer(FundraiserSerializer): # adding functionality t
     
 
 class PledgeDetailSerializer(PledgeSerializer):
-    fundraiser = FundraiserSerializer(read_only=True)  # This will include the related fundraiser in the serialized data
+    # fundraiser = FundraiserSerializer(read_only=True)  # This will include the related fundraiser in the serialized data
 
     def update(self, instance, validated_data):
-        instance.amount = validated_data.get('amount', instance.amount)
-        instance.comment = validated_data.get('comment', instance.comment)
-        instance.anonymous = validated_data.get('anonymous', instance.anonymous)
-        instance.supporter = validated_data.get('supporter', instance.supporter)
+        instance.amount = validated_data.get("amount", instance.amount)
+        instance.comment = validated_data.get("comment", instance.comment)
+        instance.anonymous = validated_data.get("anonymous", instance.anonymous)
+        # instance.supporter = validated_data.get("supporter", instance.supporter)
         # instance.fundraiser = validated_data.get('fundraiser', instance.fundraiser)
         instance.save()
         return instance
