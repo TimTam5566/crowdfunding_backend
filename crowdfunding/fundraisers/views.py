@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 from .models import Fundraiser, Pledge # Import our Fundraiser model
-from .serializers import FundraiserSerializer, PledgeSerializer, FundraiserDetailSerializer, PledgeDetailSerializer# Import our FundraiserSerializer
+from .serializers import FundraiserSerializer, PledgeSerializer, FundraiserDetailSerializer # Import our FundraiserSerializer
 from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 # Create your views here.
 
