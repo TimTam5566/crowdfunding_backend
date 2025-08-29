@@ -1,5 +1,12 @@
 from rest_framework import permissions
 
+''' 
+Used to create custom permissions, which restrict 
+
+editing to the owner or supporter but allow anyone to read the data
+
+'''
+
 class IsOwnerOrReadOnly(permissions.BasePermission): # Custom permission class to allow only owners of an object to edit it.
     def has_object_permission(self, request, view, obj): # This method checks if the user has permission to perform the action on the object.
         if request.method in permissions.SAFE_METHODS: # SAFE_METHODS are GET, HEAD, and OPTIONS requests, which are read-only.

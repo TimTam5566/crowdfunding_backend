@@ -1,15 +1,21 @@
 from rest_framework import serializers
 from django.apps import apps
 
-class FundraiserSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.id')
+''' 
+Defines serializer classes that turn the model into API-freindly 
 
+data and to reference models dynamically.
+
+'''
+
+class FundraiserSerializer(serializers.ModelSerializer): # this serializer will include all the fields from the Fundraiser model 
+    owner = serializers.ReadOnlyField(source='owner.id') # the owner field will display the owners user ID but cannot be changed through the API
     class Meta: #  job is to serialize our Fundraiser model into JSON, and that it should include __all__ of the fields when it does so!
         model = apps.get_model('fundraisers.Fundraiser')
         fields = '__all__'
 
-class PledgeSerializer(serializers.ModelSerializer):
-    supporter = serializers.ReadOnlyField(source='supporter.id')
+class PledgeSerializer(serializers.ModelSerializer): # this serializer will include all the fields from the Pledge model 
+    supporter = serializers.ReadOnlyField(source='supporter.id') #the supporter field will display the supporter user ID but cannot be changed through the API
 
     class Meta:
         model = apps.get_model('fundraisers.Pledge')
@@ -32,14 +38,14 @@ class FundraiserDetailSerializer(FundraiserSerializer): # adding functionality t
         return instance
     
 
-class PledgeDetailSerializer(PledgeSerializer):
+class PledgeDetailSerializer(PledgeSerializer): # adding functionality to the PledgeDetail view
     # fundraiser = FundraiserSerializer(read_only=True)  # This will include the related fundraiser in the serialized data
 
     def update(self, instance, validated_data):
         instance.amount = validated_data.get("amount", instance.amount)
         instance.comment = validated_data.get("comment", instance.comment)
         instance.anonymous = validated_data.get("anonymous", instance.anonymous)
-        # instance.supporter = validated_data.get("supporter", instance.supporter)
-        # instance.fundraiser = validated_data.get('fundraiser', instance.fundraiser)
+        instance.supporter = validated_data.get("supporter", instance.supporter)
+        instance.fundraiser = validated_data.get('fundraiser', instance.fundraiser)
         instance.save()
         return instance

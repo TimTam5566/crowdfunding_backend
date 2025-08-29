@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 from .models import Fundraiser, Pledge # Import our Fundraiser model
-from .serializers import FundraiserSerializer, PledgeSerializer, FundraiserDetailSerializer #PledgeDetailSerializer# Import our FundraiserSerializer
+from .serializers import FundraiserSerializer, PledgeSerializer, FundraiserDetailSerializer, PledgeDetailSerializer# Import our FundraiserSerializer
 from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 # Create your views here.
 
@@ -28,6 +28,11 @@ class FundraiserList(APIView): # inheriting from APIView to create a view for li
                 ) # If the data was invalid, we return a 400 BAD REQUEST with the errors.
     
 class FundraiserDetail(APIView):
+    ''' this code block allows read only for unauthorised readers but allows the authorised  user to 
+    
+    update the content of the fundraiser
+    
+    '''
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, # Allow read-only access for unauthenticated users, but restrict write access to authenticated users.
         IsOwnerOrReadOnly # Custom permission to allow only owners of an object to edit it.
@@ -42,12 +47,12 @@ class FundraiserDetail(APIView):
         except Fundraiser.DoesNotExist: # try/except block. This allows us to define an "expected" behaviour, and a "backup" behaviour if we encounter errors. 
             raise Http404 #  if no fundraiser exists in the database that has the supplied primary key value, we raise an "exception" that results in a 404 NOT FOUND result being returned to the user.
 
-    def get(self, request, pk):
+    def get(self, request, pk): # this block of code retreives one fundraiser from the database based on the primary key
         fundraiser = self.get_object(pk)
         serializer = FundraiserDetailSerializer(fundraiser)
         return Response(serializer.data)
     
-    def put(self, request, pk):
+    def put(self, request, pk): # this block is used to update information in a fundraiser such as goal or title
         fundraiser = self.get_object(pk)
         serializer = FundraiserDetailSerializer(
             instance=fundraiser,
@@ -85,11 +90,18 @@ class PledgeList(APIView):
                 )  # Return 400 BAD REQUEST if invalid data
         
     
-class PledgeDetail(APIView):
+class PledgeDetail(APIView): 
+    ''' This code block protects user-generated content. It ensures that:
+
+    a supporter can update their own pledge and that others can view a pledge but not alter it
+
+    Unauthorized edits are blocked automatically.
+
+    '''
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
         IsSupporterOrReadOnly] 
-    def get_object(self, pk):
+    def get_object(self, pk): # this is used to securely retreive a single pledge from the database
         try:
             pledges = Pledge.objects.get(pk=pk)
             self.check_object_permissions(self.request, pledges)

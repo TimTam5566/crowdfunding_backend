@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model # Import the custom user model doing this wires up some django magic
 
-# Create your models here.
+''' Imports let us define our own models and safely reference the user model for relationships'''
 
-class Fundraiser(models.Model):
-   title = models.CharField(max_length=200)
+class Fundraiser(models.Model): #starts the definition of the fundraiser model which will be used by django to create a database table
+   
+   ''' Stores information about each fundraiser campaign '''
+   
    description = models.TextField()
    goal = models.IntegerField()
    image = models.URLField()
@@ -15,8 +17,11 @@ class Fundraiser(models.Model):
       on_delete=models.CASCADE, # if user gets deleted, fundraisers get deleted
       related_name='owned_fundraisers'   
    )
-
+   
 class Pledge(models.Model):
+
+   ''' Stores information about each pledge towards a campaign'''
+
    amount = models.IntegerField()
    comment = models.CharField(max_length=200)
    anonymous = models.BooleanField()
