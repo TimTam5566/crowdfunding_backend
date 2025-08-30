@@ -205,3 +205,7 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+#local only - stores configurations for use on local environment only
+.env 
+
